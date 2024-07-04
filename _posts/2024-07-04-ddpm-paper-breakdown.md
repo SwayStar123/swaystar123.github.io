@@ -1,7 +1,7 @@
 ---
 title: 'Denoising Diffusion Probabilistic Models - Paper breakdown'
 date: 2024-07-04
-permalink: /posts/2024/07/blog-post-1/
+permalink: /posts/2024/07/ddpm-paper-breakdown/
 tags:
   - diffusion
   - ai
@@ -29,6 +29,8 @@ tags:
 Denoising Diffusion Probabilistic Models (DDPM for short) are the foundation for diffusion models. This blog post will breakdown the entire paper with commentary and additional images/videos in order to aide in understanding of all the maths and concepts.
 
 Thank you to Jonathan Ho, Ajay Jain, and Pieter Abbeel from UC Berkeley for their work on diffusion models.
+
+[Link to original paper](https://arxiv.org/abs/2006.11239)
 
 # Abstract
 
