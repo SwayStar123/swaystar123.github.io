@@ -87,7 +87,9 @@ In a single single headed attention layer you have 3 weight matrices, $$W_q$$, $
 You obtain the query, key, and value vectors for each token embedding by multiplying the token embedding by the query, key, and value matrices respectively.
 
 $$q_i = W_q \cdot x_i$$
+
 $$k_i = W_k \cdot x_i$$
+
 $$v_i = W_v \cdot x_i$$
 
 where $$x_i$$ is the token embedding for the $$i$$th token in the sequence.
