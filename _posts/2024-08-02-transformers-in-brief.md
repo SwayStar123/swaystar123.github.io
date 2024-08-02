@@ -82,15 +82,15 @@ You have a sequence of token embeddings, but the length of the sequence can vary
 ## Solution
 The attention architecture solves this problem by using the same set of weight matrices for every token embedding in the sequence, within the same attention layer (different layers have different weight matrices, and multi headed attention layers can have multiples of the weight matrices, but the number of these matrices wont change depending on the sequence length).
 
-In a single single headed attention layer you have 3 weight matrices, $W_q$, $W_k$, and $W_v$, each representing a query, key, and value matrix respectively.
+In a single single headed attention layer you have 3 weight matrices, $$W_q$$, $$W_k$$, and $$W_v$$, each representing a query, key, and value matrix respectively.
 
 You obtain the query, key, and value vectors for each token embedding by multiplying the token embedding by the query, key, and value matrices respectively.
 
-$q_i = W_q \cdot x_i$
-$k_i = W_k \cdot x_i$
-$v_i = W_v \cdot x_i$
+$$q_i = W_q \cdot x_i$$
+$$k_i = W_k \cdot x_i$$
+$$v_i = W_v \cdot x_i$$
 
-where $x_i$ is the token embedding for the $i$th token in the sequence.
+where $$x_i$$ is the token embedding for the $$i$$th token in the sequence.
 
 # Transformer Architecture
 
