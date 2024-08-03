@@ -94,5 +94,54 @@ $$v_i = W_v \cdot x_i$$
 
 where $$x_i$$ is the token embedding for the $$i$$th token in the sequence.
 
+Then, using the key and the query, you can compute how much "attention" a word pays to another word (or itself).
+The below can be read as "the amount of attention token $$x_n$$ pays to token $$x_m$$".
+
+$$ a[x_m, x_n] = softmax_m[\frac{q_m \cdot k_n^T}{\sqrt{D_k}}] $$
+
+where $$D_k$$ is the dimension of the key and query vectors.
+
+The numerator is the dot product of the query and the transpose of the key. This ends up being a scalar value since both the query and the key have the same dimension. This scalar value represents how similar the two vectors are, if they are similar, the value will be higher, and if not, the value will be lower. However, the values can become very large, as the dot product operation is a sum of products of the elements of the vectors, and as discussed above, ai training doesnt play well with big numbers, so to counteract this, we have the denominator.
+
+The denominator is the squart root of the dimension of the vectors, this is to ensure training stability (in the softmax function, and if the values vary largely, the gradients will be unstable).
+
+The softmax function is then applied to the term, which normalizes the value to between 0 and 1, where all the values along the m column sum to 1.
+Essentially meaning, the values for all $$[x_(1, .., N), x_n]$$ sum to 1. So we have a list of which $$x_n$$s pay the most attention to the given $$x_m$$.
+
+Going back to the example sentence "The black cat is sleeping", this could be a hypothetical attention matrix
+
+$$x_n$$ | $$x_1$$ "The" | $$x_2$$ "black" | $$x_3$$ "cat" | $$x_4$$ "is" | $$x_5$$ "sleeping"
+--- | --- | --- | --- | --- | ---
+"The" | 0.15 | 0.05 | 0.8 | 0.0 | 0.0 
+"black" | 0.0 | 0.1 | 0.9 | 0.0 | 0.0 
+"cat" | 0.1 | 0.5 | 0.2 | 0.05 | 0.15 
+"is" | 0.00 | 0.00 | 0.1 | 0.2 | 0.7 
+"sleeping" | 0.1 | 0.0 | 0.8 | 0.05 | 0.05 
+
+Heres my thought process behind the numbers i made up (its not necessary any model learns such a matrix, this is something hypothetical i made up to aide understanding)
+
+"The": The word "cat" pays the most attention to this, because in this sentence, it marks the subject of the sentence.
+"black": Again, the word "cat" pays most attention to this, because it is the cat that is black.
+"cat": The words "black" and "sleeping" pay the most attention, however, the word also pays some attention to itself.
+"is": The word "sleeping" pays the most attention, as that the action being done.
+"sleeping": The word "cat" pays the most attention, as it is the one sleeping.
+
+Using these attention weights, and the previously calculated value vectors, we will now begin to modify the token embeddings.
+
+$$ sa_n[x_1, .., x_N] = \sum_{m=1}^{N} a[x_m, x_n] \cdot v_m $$
+
+This is called self attention, as the keys, queries, and values, all come from the same sequence of token embeddings. (As opposed to cross attention, where not all the vectors are from the same sequence).
+
+The attention scalars that we just calculated act as weights, that decide how much of each value vector affect the $$sa_n$$ output vector.
+
+Continuing using the example sentence "The black cat is sleeping", and using the hypothetical attention matrix, here is an imagined explanation for what the values represent, and what they combine into for all the $$sa_n$$ vectors.
+
+$$sa_1$$: "The" goes from an abstract embedding that contains the meaning of "subject marker", to a more concrete meaning of "The cat". The value matrix for $$m = 3$$ which is "cat" is the highest, which encodes the meaning of "cat" into the $$sa_1$$ vector.
+$$sa_2$$: "black" goes from just the colour "black" to a more nuanced meaning, of "black (fur, breed of cat, etc)", as "cat" pays the most attention to this token.
+$$sa_3$$: "cat" goes from an embedding representing the concept of the average cat, to a "The (singular subject) black sleeping cat", due the attention paid by all the other tokens.
+$$sa_4$$: "is" goes from another abstract verb embedding, to a more nuanced embedding of "(animal) is (sleeping)" due to the attention paid by "cat" and "sleeping" .
+$$sa_5$$: "sleeping" goes from a verb embedding more heavily weighted to humans (as thats the most common use of the word), to now representing cats sleeping, perhaps it has the added nuance of "purring" now too!
+
 # Transformer Architecture
 
+WIP. I dont have a good enough *intuitive* explanation for why the transformer architecture is as it is.
