@@ -27,7 +27,7 @@ we can generate images like this from pure noise.
 
 ![generated samples](/images/blog_images/2024-08-07-simplest-diffusion/generated_samples.png)
 
-The sampling function could probably be improved, as the noises are not perfect (or maybe you need to train the model for longer, only trained for 10 epochs)
+The sampling function could probably be improved, as the images are not perfect (or maybe you need to train the model for longer, only trained for 10 epochs)
 
 Full code can be seen [here](https://github.com/SwayStar123/simplest_diffusion/)
 
