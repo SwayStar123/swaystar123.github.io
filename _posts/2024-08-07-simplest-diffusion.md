@@ -22,12 +22,12 @@ def sample(model, bs: int = 9, steps: int = 10):
 
 we can generate images like this from pure noise.
 
-![generated samples](./images/2024-08-07-simplest-diffusion/Generated%20samples.png)
+![generated samples](_posts/images/2024-08-07-simplest-diffusion/generated_samples.png)
 
 The sampling function could probably be improved, as the images are still noisy (if you increase the number of steps, the images depict the same numbers, likely some overfitting going on)
 
 
-Full code can be seen here[https://github.com/SwayStar123/simplest_diffusion/]
+Full code can be seen [here](https://github.com/SwayStar123/simplest_diffusion/)
 
 The code is so simple i dont even think it needs any explanation, id just be repeating myself.
 
