@@ -16,7 +16,7 @@ I first started learning Japanese about 3 years ago, with Duolingo. I did one le
 
 I seriously started learning Japanese on October 18th 2023, using [jpdb.io](https://jpdb.io/). You can see all my statistics by going to https://jpdb-stats.andmore.coffee and inserting my stats json. Download json from [here](https://github.com/SwayStar123/swaystar123.github.io/blob/master/files/reviews.json).
 
-Ive spent a cumulative 433 hours on jpdb, learning a total of 18627 non redundant words.
+Ive spent a cumulative 433 hours on jpdb, learning a total of 18627 non redundant words. In the starting few months, I was doing around 100 new words on average per day.
 Ive spent 66 hours reading books (同じ夢を見ていた, 本好きの下剋上　第一部　第一巻, 一瞬の永遠を、きみへ, 本好きの下剋上　第一部　第二巻) for a total of 650k characters.
 Played about 50 hours of divinity 2 original sin in Japanese.
 Watched an indeterminate amount of anime.
