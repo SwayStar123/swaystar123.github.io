@@ -1,7 +1,7 @@
 ---
-title: 'Simplest Diffusion'
-date: 2024-08-07
-permalink: /posts/2024/08/simplest-diffusion/
+title: 'My Diffusion Experiments'
+date: 2025-09-08
+permalink: /posts/2025/09/diffusion-experiments/
 tags:
   - diffusion
   - ai
