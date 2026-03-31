@@ -10,7 +10,7 @@
 locale                   : "en-US"
 title                    : "SwayStar123"
 title_separator          : "-"
-name                     : &name "SwayStar123"
+name                     : &name "Swayam Bhanded"
 description              : &description "SwayStar123's personal website"
 url                      : https://swaystar123.github.io # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
@@ -22,17 +22,17 @@ repository               : "SwayStar123/swaystar123.github.io"
 author:
   # Biographic information
   avatar           : "profile.png"
-  name             : "SwayStar123"
+  name             : "Swayam Bhanded"
   pronouns         : "he/him" # example: "she/her"  
   bio              : "Image gen researcher"
   location         : "India"
-  employer         : "Bria AI"
+  employer         : "Luma Labs AI"
   uri              : # URL
-  email            : "sway@kagaku.ai" 
+  email            : "swayambhanded@gmail.com" 
 
   # Academic websites
   arxiv            : # URL - Update with the correct link to your profile
-  googlescholar    : # URL
+  googlescholar    : https://scholar.google.com/citations?user=a7xreSQAAAAJ&hl=en
   impactstory      : # URL
   orcid            : # URL
   semantic         : # URL
