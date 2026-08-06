@@ -10,3 +10,8 @@ Gemfile.lock
 # Ingore files created by npm
 node_modules
 package-lock.json
+
+# Ignore files created by a local bundle install / jekyll serve
+vendor/
+.bundle/
+.jekyll-cache/

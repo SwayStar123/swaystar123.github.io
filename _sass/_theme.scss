@@ -1,0 +1,682 @@
+/* ==========================================================================
+   THEME — dark, minimal, modern
+
+   Loaded last so it can override the hardcoded light-theme values baked into
+   the upstream Minimal Mistakes partials (`background: white`, `color: #000`,
+   heavy drop shadows, …) without forking those files.
+   ========================================================================== */
+
+/*
+   Base
+   ========================================================================== */
+
+html {
+  background-color: $background-color;
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  letter-spacing: -0.003em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: $heading-color;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+h1 { letter-spacing: -0.03em; }
+
+strong, b { color: $darker-gray; font-weight: 600; }
+
+::selection {
+  background: rgba($accent-color, 0.28);
+  color: $darker-gray;
+}
+
+hr {
+  margin: 2.5em 0;
+  border-top: 1px solid $border-color;
+}
+
+/* Thin, unobtrusive scrollbars that match the page instead of the OS */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: $border-color-strong transparent;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: $border-color-strong;
+  border: 2px solid $background-color;
+  border-radius: 999px;
+
+  &:hover { background: lighten($border-color-strong, 10%); }
+}
+
+/*
+   Links
+   ========================================================================== */
+
+a {
+  color: $link-color;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  transition: color 0.15s ease-in-out;
+
+  &:visited { color: $link-color; }
+  &:hover { color: $link-color-hover; }
+
+  &:focus-visible {
+    outline: 2px solid rgba($accent-color, 0.6);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+/* underline is drawn by text-decoration rather than a border so that links
+   wrapping an image don't get a stray rule under the figure */
+.page__content a {
+  text-decoration: underline;
+  text-decoration-color: rgba($accent-color, 0.4);
+
+  &:hover {
+    text-decoration-color: $accent-color;
+  }
+}
+
+/*
+   Masthead
+   ========================================================================== */
+
+.masthead {
+  background: rgba($background-color, 0.7);
+  border-bottom: 1px solid $border-color;
+
+  @supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+    -webkit-backdrop-filter: saturate(160%) blur(14px);
+            backdrop-filter: saturate(160%) blur(14px);
+  }
+
+  &__inner-wrap {
+    padding: 0.85em 1em;
+  }
+}
+
+.masthead__menu-item--lg a {
+  color: $darker-gray;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.greedy-nav {
+  background: transparent;
+
+  a {
+    color: $masthead-link-color;
+    font-size: $type-size-6;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+
+    &:hover { color: $masthead-link-color-hover; }
+  }
+
+  .visible-links a:before {
+    height: 1px;
+    bottom: 0.25em;
+    background: $accent-color;
+    transform-origin: left center;
+  }
+
+  button {
+    height: 2rem;
+    background-color: transparent;
+    color: $gray;
+    border-radius: $border-radius;
+
+    &:hover .navicon,
+    &:hover .navicon:before,
+    &:hover .navicon:after { background: $darker-gray; }
+  }
+
+  .hidden-links {
+    background: $surface-color-raised;
+    border: 1px solid $border-color;
+    border-radius: $border-radius-lg;
+    box-shadow: $box-shadow-lg;
+    overflow: hidden;
+
+    a {
+      font-size: $type-size-6;
+
+      &:hover {
+        color: $darker-gray;
+        background: rgba($accent-color, 0.12);
+      }
+    }
+
+    &:before { border-color: $border-color transparent; }
+    &:after { border-color: $surface-color-raised transparent; }
+
+    li { border-bottom: 1px solid $border-color; }
+  }
+}
+
+.navicon {
+  background: $gray;
+  border-radius: 2px;
+
+  &:before,
+  &:after {
+    background: $gray;
+    border-radius: 2px;
+  }
+}
+
+/*
+   Pagination
+   ========================================================================== */
+
+.pagination {
+  li a {
+    border: 1px solid $border-color;
+
+    &:hover { background: $surface-color; }
+
+    &.current {
+      color: $background-color;
+      background: $accent-color;
+      border-color: $accent-color;
+    }
+  }
+
+  &--pager {
+    color: $muted-color;
+    border: 1px solid $border-color;
+
+    &:hover {
+      color: $darker-gray;
+      background: $surface-color;
+    }
+  }
+}
+
+/*
+   Sidebar / author profile
+   ========================================================================== */
+
+.sidebar {
+  opacity: 1;
+
+  p, li { font-size: $type-size-6; }
+}
+
+.author__avatar img {
+  border-radius: 50%;
+  background: $surface-color;
+
+  @include breakpoint($large) {
+    max-width: 140px;
+    padding: 0;
+    border: 1px solid $border-color;
+    box-shadow: 0 0 0 4px rgba(#fff, 0.02);
+  }
+}
+
+.author__name {
+  color: $darker-gray;
+  font-weight: 600;
+}
+
+.author__pronouns,
+.author__bio {
+  color: $muted-color;
+  font-size: $type-size-6;
+}
+
+.author__bio {
+  line-height: 1.5;
+}
+
+.author__urls-wrapper button {
+  color: $gray !important;
+  background-color: transparent;
+  border: 1px solid $border-color !important;
+
+  &:hover {
+    color: $darker-gray !important;
+    border-color: $border-color-strong !important;
+    background-color: $surface-color;
+  }
+}
+
+.author__urls {
+  background: $surface-color-raised;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $box-shadow-lg;
+
+  &:before { border-color: $border-color transparent; }
+  &:after { border-color: $surface-color-raised transparent; }
+
+  @include breakpoint($large) {
+    /* on desktop the links sit inline in the sidebar, not in a popover */
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  li {
+    color: $muted-color;
+    font-size: $type-size-6;
+  }
+
+  a {
+    color: $muted-color;
+    font-size: $type-size-6;
+
+    &:hover {
+      color: $accent-color;
+      text-decoration: none;
+    }
+  }
+
+  .icon-pad-right,
+  .fa,
+  .fas,
+  .fab,
+  .far {
+    color: $gray;
+    opacity: 0.8;
+  }
+}
+
+/*
+   Page & post content
+   ========================================================================== */
+
+.page__title {
+  font-size: $type-size-2;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+
+.page__lead {
+  color: $muted-color;
+}
+
+.page__meta,
+.page__meta a,
+.archive__subtitle,
+.footnote,
+.footnotes,
+figcaption {
+  color: $muted-color;
+}
+
+.page__meta {
+  font-size: $type-size-7;
+  letter-spacing: 0.02em;
+}
+
+.page__content {
+  line-height: 1.7;
+
+  h2 {
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid $border-color;
+  }
+
+  img {
+    border-radius: $border-radius;
+  }
+
+  a:hover img {
+    box-shadow: $box-shadow-lg;
+  }
+}
+
+figcaption a:hover {
+  color: $accent-color;
+  border-bottom-color: $accent-color;
+}
+
+blockquote {
+  margin-left: 0;
+  padding-left: 1.25em;
+  color: $muted-color;
+  font-style: normal;
+  border-left: 2px solid $border-color-strong;
+}
+
+.page__hero-caption {
+  background: rgba(#000, 0.6);
+  opacity: 1;
+}
+
+/*
+   Code
+   ========================================================================== */
+
+p > code,
+a > code,
+li > code,
+figcaption > code,
+td > code {
+  color: $accent-color-soft;
+  background: $surface-color;
+  border: 1px solid $border-color;
+  box-shadow: none;
+  font-size: 0.85em;
+}
+
+div.highlighter-rouge,
+figure.highlight {
+  padding: 1em 1.1em;
+  background-color: $code-background-color-dark;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: none;
+  font-size: 1em;
+
+  /* upstream stamps a Font Awesome "code" glyph in the corner — too busy */
+  &:before { display: none; }
+
+  .highlight {
+    font-size: 0.8125rem;
+    line-height: 1.65;
+  }
+
+  pre { margin: 0; }
+}
+
+.highlight .lineno {
+  color: #3b4261;
+  -webkit-user-select: none;
+          user-select: none;
+}
+
+/*
+   Tables
+   ========================================================================== */
+
+table {
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+}
+
+thead {
+  background-color: $surface-color;
+  border-bottom: 1px solid $border-color;
+}
+
+th {
+  color: $darker-gray;
+  font-weight: 600;
+  border-right: 1px solid $border-color;
+  border-bottom: 1px solid $border-color;
+
+  &:last-child { border-right: 0; }
+}
+
+td {
+  border-bottom: 1px solid $border-color;
+  border-right: 1px solid $border-color;
+
+  &:last-child { border-right: 0; }
+}
+
+tbody tr:last-child td { border-bottom: 0; }
+
+/*
+   Buttons
+   ========================================================================== */
+
+.btn {
+  color: $background-color !important;
+  font-weight: 600;
+  background-color: $accent-color;
+  border-radius: $border-radius;
+  box-shadow: none;
+
+  &:hover {
+    color: $background-color !important;
+    background-color: $accent-color-soft;
+  }
+
+  &--inverse {
+    color: $text-color !important;
+    background-color: transparent;
+    border: 1px solid $border-color !important;
+
+    &:hover {
+      color: $darker-gray !important;
+      background-color: $surface-color;
+      border-color: $border-color-strong !important;
+    }
+  }
+
+  &--light-outline {
+    border: 1px solid $border-color !important;
+  }
+}
+
+/*
+   Notices
+   ========================================================================== */
+
+.notice,
+.notice--primary,
+.notice--info,
+.notice--warning,
+.notice--success,
+.notice--danger {
+  color: $text-color;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-left-width: 2px;
+  border-radius: $border-radius;
+  box-shadow: none;
+
+  code { background-color: $code-background-color-dark; }
+}
+
+.notice { border-left-color: $border-color-strong; }
+.notice--primary { border-left-color: $accent-color; a { color: $accent-color; } }
+.notice--info { border-left-color: $info-color; a { color: $info-color; } }
+.notice--warning { border-left-color: $warning-color; a { color: $warning-color; } }
+.notice--success { border-left-color: $success-color; a { color: $success-color; } }
+.notice--danger { border-left-color: $danger-color; a { color: $danger-color; } }
+
+/*
+   Archives / post lists
+   ========================================================================== */
+
+.archive__subtitle {
+  font-size: $type-size-6;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid $border-color;
+}
+
+.archive__item-title {
+  margin-bottom: 0.15em;
+  font-size: $type-size-4;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+
+  a {
+    color: $heading-color;
+    text-decoration: none;
+    border-bottom: 0;
+
+    &:hover { color: $accent-color; }
+  }
+}
+
+.archive__item-excerpt {
+  margin-top: 0.35em;
+  color: $muted-color;
+  font-size: 0.9375em;
+  line-height: 1.6;
+
+  /* markdownify wraps the excerpt in its own <p> */
+  p {
+    margin-bottom: 0;
+    font-size: inherit;
+    color: inherit;
+  }
+}
+
+/* "Published: <date>" line under archive entries and post headers */
+.page__date {
+  margin-bottom: 0.5em;
+  color: $muted-color;
+  font-size: $type-size-6;
+
+  strong {
+    color: $muted-color;
+    font-weight: 500;
+  }
+
+  .fa { margin-right: 0.1em; }
+}
+
+.archive__item:hover {
+  .archive__item-title { text-decoration: none; }
+  .archive__item-teaser { box-shadow: $box-shadow-lg; }
+}
+
+.list__item {
+  padding-bottom: 1.5em;
+  border-bottom: 1px solid rgba($border-color, 0.7);
+
+  & + .list__item { padding-top: 0.5em; }
+}
+
+.page__taxonomy-item {
+  color: $muted-color;
+  font-size: $type-size-7;
+  border: 1px solid $border-color;
+  border-radius: 999px;
+
+  &:hover {
+    color: $accent-color;
+    border-color: rgba($accent-color, 0.5);
+  }
+}
+
+/*
+   Table of contents
+   ========================================================================== */
+
+.toc {
+  color: $muted-color;
+  background-color: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius-lg;
+  box-shadow: none;
+  overflow: hidden;
+  text-transform: none;
+  letter-spacing: 0;
+
+  .nav__title {
+    color: $darker-gray;
+    background: transparent;
+    border-bottom: 1px solid $border-color;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+.toc__menu a {
+  color: $muted-color;
+  font-weight: 500;
+  border-bottom: 1px solid $border-color;
+
+  &:hover {
+    color: $darker-gray;
+    background: $surface-color-raised;
+  }
+}
+
+.nav__list .active {
+  color: $background-color;
+
+  &:hover { color: $background-color; }
+}
+
+.nav__sub-title {
+  color: $muted-color;
+  border-bottom: 1px solid $border-color;
+}
+
+/*
+   Footer
+   ========================================================================== */
+
+.page__footer {
+  color: $muted-color;
+  background-color: transparent;
+  border-top: 1px solid $border-color;
+
+  footer { margin-top: 1.5em; }
+
+  a {
+    color: $muted-color;
+
+    &:hover { color: $darker-gray; }
+  }
+
+  .fas, .fab, .far, .fal { color: $muted-color; }
+}
+
+.page__footer-copyright {
+  color: $gray;
+  opacity: 0.75;
+}
+
+.page__footer-follow {
+  li {
+    font-size: $type-size-7;
+    letter-spacing: 0.06em;
+  }
+
+  a { font-weight: 500; }
+}
+
+/*
+   Misc
+   ========================================================================== */
+
+.page__comments-form {
+  background: $surface-color;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+}
+
+.page__share,
+.page__related,
+.page__comments-title {
+  border-top: 1px solid $border-color;
+}
+
+/* MathJax should inherit the page text colour, not the browser default */
+mjx-container[jax="CHTML"] { color: $text-color; }

@@ -38,4 +38,7 @@
 @import "vendor/font-awesome/solid";
 @import "vendor/font-awesome/brands";
 @import "vendor/magnific-popup/magnific-popup";
+
+@import "theme"; // dark theme overrides — must stay last (before print)
+
 @import "print";

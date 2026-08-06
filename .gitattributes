@@ -1,0 +1,6 @@
+# Keep LF in the working tree on every platform.
+#
+# Jekyll's `excerpt_separator: "\n\n"` never matches CRLF, so a CRLF checkout
+# makes every post excerpt the entire post — the archive pages then render full
+# articles locally while the GitHub Pages build (which is LF) shows previews.
+* text=auto eol=lf

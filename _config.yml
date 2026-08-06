@@ -23,7 +23,7 @@ author:
   # Biographic information
   avatar           : "profile.png"
   name             : "Swayam Bhanded"
-  pronouns         : "he/him" # example: "she/her"  
+  pronouns         : # example: "she/her"
   bio              : "Image gen researcher"
   location         : "India"
   employer         : "Luma Labs AI"

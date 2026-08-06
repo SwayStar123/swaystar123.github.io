@@ -27,7 +27,7 @@ VAE latent space, with a 22M-parameter DiT:
 x_t = (1 − t)·x0 + t·x1        x1 ~ N(0, I)
 ```
 
-t = 1 is pure noise. The model predicts the velocity `v = x1 − x0`
+t = 1 is pure noise. The model predicts the velocity `v = x1 − x0`.
 
 Normal sampling uses Euler integration with small steps to reach the clean image. However, at any point during sampling, the velocity prediction implies a belief about the final image,
 
@@ -124,13 +124,13 @@ x_0.9 = 0.9·x1 + 0.1·E[x0]
 ```
 
 noise plus a faint mean face. If the model followed the only genuine signal in that state, every sample would sharpen into the same averaged floating head.
-Instead, unique details emerge. At t=0.9, there is still plenty of noise, and thus plenty of chances to see things which arent there. Remember, the mean face is not part of the real data manifold, so the model simply does not see it as a valid choice. Some of this noise must be ground truth, and some of this mean face must be noise!
+Instead, unique details emerge. At t=0.9, there is still plenty of noise, and thus plenty of chances to see things which aren't there. Remember, the mean face is not part of the real data manifold, so the model simply does not see it as a valid choice. Some of this noise must be ground truth, and some of this mean face must be noise!
 
 ![implied x0 along the sampling trajectory](/images/blog_images/2026-08-05-schizophrenia-machines/fig6_x0_trajectory.png)
 
 (two seeds. Columns alternate between what the model receives and what it believes is in there: prediction at t = 1.0, then input state / prediction pairs at t = 0.9, 0.8, 0.6, 0.4, 0.2, then the final output)
 
-At t = 1 the prediction is always the mean face. Then it drifts toward some specific person that was never in the input. Interpreting some noises as signal, and some mean face as noise
+At t = 1 the prediction is always the mean face. Then it drifts toward some specific person that was never in the input. Interpreting some noises as signal, and some mean face as noise.
 
 Compare with a t = 0.9 state built from a real image. Noise a real photo to t = 0.9, then run the full model's 58-step sampling from there. Pose, palette, and composition survive.
 
@@ -197,12 +197,12 @@ None of the pieces here are new; the assembly might be. The pareidolia analogy h
   (t ∈ {1.0, 0.9} 50/50, conditioning frozen to 0).
 - **Code**: [here](https://github.com/SwayStar123/schizophrenia-machines).
   `train.py --t-mode {t1,t09,full,uncond}`, then `experiments.py`,
-  `experiment_chain.py`, `empirical_bayes.py`, `experiment_uncond.py`,
+  `fig6_remake.py`, `empirical_bayes.py`, `experiment_uncond.py`,
   `experiment_iterate.py`, `variance_check.py`.
 
 [^1]: Throughout: diversity = mean pairwise L2 between outputs in latent space, over 256 inputs; ± is a 95% CI from 16 disjoint 16-sample groups. Figures show the first few of the same seeds.
 
-[^2]: The gap is real (31.3 ± 0.8 vs 27.3 ± 0.3) — the genuine signal does *some* work — and the pure-noise outputs actually sit slightly farther from the mean face (24.6 vs 23.1). Also, pure noise is ~10% "hotter" than the t=0.9 marginal, so these inputs are detectably out-of-distribution; the model confabulates on them anyway. Cf. the unconditioned model later, which learns to use exactly that gap.
+[^2]: The gap is real (31.3 ± 0.8 vs 27.3 ± 0.3) — the genuine signal does *some* work — and the pure-noise outputs actually sit slightly farther from the mean face (24.6 vs 23.1). Also, pure noise is ~10% "hotter" than the t=0.9 marginal, so these inputs are detectably out-of-distribution; the model confabulates on them anyway. Cf. the unconditioned model in footnote 7, which learns to use exactly that gap.
 
 [^3]: Distances for scale: the optimal denoiser's outputs sit at 33 from their nearest training image, the trained model's at 69, and a real latent's average distance to its *nearest neighbor* in the training set is 88.5 ± 1.4. (Nearest- neighbor distance — a different yardstick from the pairwise diversity numbers.)
 
