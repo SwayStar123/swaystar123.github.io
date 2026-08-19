@@ -15,3 +15,6 @@ package-lock.json
 vendor/
 .bundle/
 .jekyll-cache/
+# Local-only figure inputs
+_figures/data/
+_figures/extract_data.py
