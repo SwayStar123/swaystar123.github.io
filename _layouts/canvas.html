@@ -51,6 +51,13 @@ layout: compress
         padding: 7px 9px; background: rgba(10,11,14,.72); border: 1px solid #22262e; border-radius: 5px;
       }
       .wordmark { font-weight: 700; font-size: 12px; letter-spacing: .14em; color: #e9ecf1; }
+      .nav .toggle {
+        color: #5c6470;
+        border-left: 1px solid #22262e; border-radius: 0;
+        margin-left: 4px; padding-left: 11px;
+      }
+      .nav .toggle:hover { color: #e9ecf1; }
+      .toggle[hidden] { display: none; }
       .topleft { display: flex; align-items: center; gap: 14px; pointer-events: auto; }
       .nav {
         display: flex; gap: 4px; padding: 4px;
@@ -220,6 +227,7 @@ layout: compress
         .panel { font-size: 16px; }
         .lead { font-size: 18px; }
         .post { grid-template-columns: 1fr; gap: 6px; }
+        .toggle { display: none; }
       }
 
       :focus-visible { outline: 2px solid rgba(122,162,247,.6); outline-offset: 2px; }
@@ -238,6 +246,7 @@ layout: compress
             <button type="button" data-tab="home" class="is-active" aria-selected="true">ABOUT</button>
             <a href="{{ base_path }}/year-archive/" data-tab="blog" aria-selected="false">POSTS</a>
             <a href="{{ base_path }}/cv/">CV</a>
+            <button type="button" id="motion-toggle" class="toggle" aria-pressed="true" hidden>PAUSE</button>
           </nav>
         </div>
       </header>

@@ -58,11 +58,22 @@
   // phones drop the cave entirely and read as a plain scrolling page
   function isPlain() { return innerWidth <= PLAIN_MAX_WIDTH; }
 
+  var MOTION_KEY = 'cave-motion';
+  function motionPref() {
+    try { return localStorage.getItem(MOTION_KEY); } catch (e) { return null; }
+  }
+  function saveMotionPref(on) {
+    try { localStorage.setItem(MOTION_KEY, on ? 'on' : 'off'); } catch (e) {}
+  }
+
   Cave.prototype.start = function () {
     var self = this;
     this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
     this.plain = isPlain();
-    this.static = this.reduced;   // reduced motion still gets the rock, just frozen
+    // frozen unless the visitor has motion on: their stored choice wins, and
+    // absent one, prefers-reduced-motion decides
+    var pref = motionPref();
+    this.static = pref === null ? this.reduced : pref === 'off';
 
     this.loop = function (t) {
       var dt = Math.min(0.05, (t - self.last) / 1000);
@@ -98,6 +109,8 @@
       this.last = performance.now();
       this.raf = requestAnimationFrame(this.loop);
     }
+    // only offer the click-to-spawn cursor while the sim is actually running
+    this.canvasEl.style.cursor = this.static ? 'default' : 'crosshair';
 
     // click anywhere on the rock to add a ball
     this.onDown = function (e) {
@@ -127,6 +140,25 @@
       if (self.static) sc.scrollTop = self.scrollTarget;
     };
     addEventListener('wheel', this.onWheel, { passive: true });
+  };
+
+  // Stopping heals the wall back to a clean cave rather than freezing it
+  // mid-chip, so the still frame looks deliberate rather than half-eaten.
+  Cave.prototype.setMotion = function (on) {
+    if (this.plain) return;
+    this.static = !on;
+    if (on) {
+      this.seed();
+      this.last = performance.now();
+      if (!this.raf) this.raf = requestAnimationFrame(this.loop);
+    } else {
+      if (this.raf) { cancelAnimationFrame(this.raf); this.raf = null; }
+      this.balls.length = 0;
+      this.sparks.length = 0;
+      this.buildWall();
+      this.draw();
+    }
+    this.canvasEl.style.cursor = on ? 'crosshair' : 'default';
   };
 
   Cave.prototype.seed = function () {
@@ -566,6 +598,28 @@
     });
   }
 
+  function initMotionToggle(cave) {
+    var btn = document.getElementById('motion-toggle');
+    if (!btn || !cave || cave.plain) return;   // nothing to control on a plain page
+    var on = !cave.static;
+    btn.hidden = false;
+
+    function paint() {
+      btn.textContent = on ? 'PAUSE' : 'RESUME';
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.setAttribute('aria-label',
+        on ? 'Pause the background animation' : 'Resume the background animation');
+    }
+    paint();
+
+    btn.addEventListener('click', function () {
+      on = !on;
+      saveMotionPref(on);
+      cave.setMotion(on);
+      paint();
+    });
+  }
+
   function init() {
     var canvas = document.getElementById('cave');
     var plate = document.getElementById('plate');
@@ -576,6 +630,7 @@
       cave.start();
     }
     initTabs(cave);
+    initMotionToggle(cave);
   }
 
   if (document.readyState === 'loading') addEventListener('DOMContentLoaded', init);
