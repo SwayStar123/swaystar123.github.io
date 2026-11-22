@@ -1,0 +1,111 @@
+---
+layout: compress
+---
+
+{% comment %}
+  Post pages — "Cavern". The article sits in the same cave as the landing page,
+  here as a shaft the full height of the page: assets/js/cave.js paints the rock
+  into #shaft, assets/js/post.js dresses the Markdown (figures, the contents
+  rail, tables), assets/css/post.css styles it. Everything still reads without
+  JavaScript, just plainer.
+{% endcomment %}
+
+{% include base_path %}
+
+{% assign words = content | strip_html | number_of_words %}
+{% if words < 180 %}
+  {% assign readtime = "&lt; 1 MIN READ" %}
+{% elsif words < 360 %}
+  {% assign readtime = "1 MIN READ" %}
+{% else %}
+  {% assign readtime = words | divided_by: site.words_per_minute | append: " MIN READ" %}
+{% endif %}
+
+<!doctype html>
+<html lang="{{ site.locale | slice: 0,2 }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#12141a">
+    <meta name="color-scheme" content="dark">
+
+    {% include seo.html %}
+    <link href="{% if site.atom_feed.path %}{{ site.atom_feed.path }}{% else %}{{ base_path }}/feed.xml{% endif %}" type="application/atom+xml" rel="alternate" title="{{ site.title }} Feed">
+    <link rel="shortcut icon" href="{{ base_path }}/images/favicon.ico?v=M44lzPylqQ">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+    <link rel="stylesheet" href="{{ base_path }}/assets/css/post.css">
+
+    {% comment %}kramdown leaves maths as \( … \) and \[ … \] for MathJax; only fetch it for posts that have some{% endcomment %}
+    {% if content contains '\(' or content contains '\[' %}
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    {% endif %}
+  </head>
+
+  <body>
+    <div class="page" id="page">
+      <div class="cave" aria-hidden="true"><canvas id="shaft"></canvas></div>
+
+      <header class="bar">
+        <a class="pill wordmark" href="{{ base_path }}/">{{ site.title | upcase }}</a>
+        <nav class="nav" aria-label="Site">
+          <a href="{{ base_path }}/">ABOUT</a>
+          <a href="{{ base_path }}/#posts" class="is-active">POSTS</a>
+          <a href="{{ base_path }}/cv/">CV</a>
+        </nav>
+      </header>
+
+      {% comment %}filled in by post.js from the article's section headings{% endcomment %}
+      <nav class="rail" id="rail" aria-label="On this page" hidden>
+        <span class="rail__label">ON THIS PAGE</span>
+        <ol class="rail__list" id="rail-list"></ol>
+      </nav>
+
+      <main class="post" id="post">
+        <article itemscope itemtype="http://schema.org/BlogPosting">
+          <header class="post__head">
+            <div class="chips">
+              <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">{{ page.date | date: "%Y.%m.%d" }}</time>
+              <span>{{ readtime }}</span>
+              {% for tag in page.tags %}
+                <a href="{{ base_path }}/tags/#{{ tag | slugify }}" rel="tag">{{ tag }}</a>
+              {% endfor %}
+            </div>
+            <h1 class="post__title" itemprop="headline">{{ page.title | markdownify | remove: "<p>" | remove: "</p>" }}</h1>
+          </header>
+
+          <div class="post__body" id="post-body" itemprop="articleBody">
+            {{ content }}
+          </div>
+        </article>
+
+        {% if page.previous or page.next %}
+          <nav class="pager" aria-label="Other posts">
+            {% if page.previous %}
+              <a class="pager__card" href="{{ base_path }}{{ page.previous.url }}">
+                <span class="pager__label">&larr; OLDER &middot; {{ page.previous.date | date: "%Y.%m.%d" }}</span>
+                <span class="pager__title">{{ page.previous.title }}</span>
+              </a>
+            {% endif %}
+            {% if page.next %}
+              <a class="pager__card pager__card--next" href="{{ base_path }}{{ page.next.url }}">
+                <span class="pager__label">{{ page.next.date | date: "%Y.%m.%d" }} &middot; NEWER &rarr;</span>
+                <span class="pager__title">{{ page.next.title }}</span>
+              </a>
+            {% endif %}
+          </nav>
+        {% endif %}
+      </main>
+
+      <footer class="floor" id="floor">
+        <span class="pill">&copy; {{ site.time | date: '%Y' }} {{ site.name | default: site.title | upcase }}</span>
+      </footer>
+    </div>
+
+    <script src="{{ base_path }}/assets/js/post.js"></script>
+    <script src="{{ base_path }}/assets/js/cave.js"></script>
+    {% include analytics.html %}
+  </body>
+</html>
